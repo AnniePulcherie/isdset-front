@@ -1,0 +1,708 @@
+
+body{
+	font-family: 'Century Gothic', Calibri, serif;
+	font-size: 13px;	
+	padding: 0px; 
+
+  	box-sizing: border-box;
+	
+	
+  z-index: -1;
+}
+
+
+.sectionTitre .articleTitre h1{
+	
+	font-size: 2.5em;
+	margin-bottom: 0;
+	font-weight:1.5em;
+	color: #012970;
+	overflow: hidden;
+}
+header{
+	height: 100px;
+	
+}
+.menu{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	text-align: center;
+	color: royalblue;
+	overflow: hidden;
+	
+}
+
+.navColor{
+	
+	color: white;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+
+.myAccueil {
+	background: url('./assets/img/accueil1.png'), linear-gradient(to bottom, royalblue , royalblue 10%, white 25%);
+	
+	background-size: 49%, cover;
+	background-repeat: no-repeat;
+	background-position: left top;
+	
+  }
+/* CSS pour masquer le sidebar par défaut */
+.sidebar {
+	transform: translateX(0);
+  }
+  
+  /* CSS pour afficher le sidebar lorsque l'état est ouvert */
+  .sidebar-open  {
+	transform: translateX(-100%);
+  }
+  #main{
+	transform: translateX(0);
+  }
+  
+  #mainy{
+	margin-left: 0;
+  }
+footer{
+	padding: 0;
+	margin: 0;
+	padding-top: 30px;
+	text-align: center;
+	background-color: #C5C5C5;
+	border-top: 2px solid #AAA;
+}
+nav{
+	
+	width: 100%;	
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	text-align: center;
+	justify-content: center;
+	color: #fff;
+	left: 160px;
+	padding-bottom: 70px;
+}
+nav ul{
+	margin: 0px;
+	padding: 0px;
+}
+nav li{
+	list-style-type: none;
+	float: left;
+}
+nav a{
+	display: inline-block;
+	text-decoration: none;
+	padding:5px 30px;
+	text-transform: uppercase;
+	font-size: 15px;
+}
+.login{
+	background: #8e0412;
+	margin-right: 20px;
+	border: solid 5px rgb(243, 223, 10);
+	border-radius: 30px;
+	color: white;
+	transition: all 1.5s ease-in-out;
+	
+
+}
+.login:hover{
+	background: white;
+	transition: background 0.3s ease-out;
+}
+.table{
+	display: table;
+	margin: 0 auto;
+}
+
+.logos{
+	position: absolute;
+	left: 1%;
+	top: -25px;
+	z-index: 1;
+	
+}
+.logoISDset{
+	width: 7rem;
+	border-radius: 50%;
+	
+	
+}
+.liens{
+	
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+	padding-right: 100px;
+	width: 100%;
+}
+
+.menu-log{
+	position :relative;
+	margin: 10px;
+	text-align: center;
+	align-items: center;	
+	width: auto;
+	height: 50px;
+	overflow: hidden;
+	font-size: 10px;
+	font-weight: 20px;
+	border: 5px solid #930312;
+	border-radius: 30px;
+	text-align: center;
+	align-items: center;
+	
+}
+.menu-logout{
+	width: 40px;
+	height: 40px;
+}
+.right button{
+	outline: none;
+	border: none;
+	background: #8e0412;
+	border-radius: 20px;
+	color: white;
+	margin-left: 10px;
+	
+}
+.right button:hover a{
+	color: rgb(4, 4, 113);
+}
+.right button a{
+	color: white;
+}
+h1,h2,h3,h4,h5{
+	overflow: hidden;
+}
+.right {
+	display: flex;
+	flex-wrap: wrap;
+	position: relative;
+	justify-self: center;
+	align-items: center;
+}
+.right menu-log:hover{
+	cursor: pointer;
+	background: royalblue;
+	color: white !important;
+}
+.menu-txt:hover{
+border-top: 5px solid #f1e241;
+background: white;
+/* background: rgba(211, 224, 37, 0.15); */
+
+}
+
+
+
+.makeCenter{
+	left: 50px;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+.colone{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	
+}
+
+.grille{
+	width: 30%;
+	margin: 15px;
+}
+
+/* nav li:hover a{
+	padding: 15px 30px 20px 30px;
+} */
+@media screen and (max-width: 780px){
+	header{
+		height: 50px;
+	}
+	h1{
+		font-size: 28px;
+		margin: 20px 0px 0px 0px;
+	}
+	nav li a{
+		font-size: 12px;
+		padding: 10px;
+	}
+	nav li:hover a{
+		padding: 5px 10px 10px 10px;
+	}
+	.liens{
+		flex-direction: column;
+	}
+}
+
+
+/* Accueil */
+
+
+
+.sectionTitre{
+	height: 40vh;
+	position :relative;
+	color: black;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	text-align: center;
+}
+
+.autre-logo{
+	position: absolute;
+	right: 50px;
+	top: 0;
+	width: 200px;
+}
+.articleTitre{
+	
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+.articleTitre h1{
+	display: block;
+	font-size: 2.1em !important;
+	margin-bottom: 0;
+    line-height: 1.2 !important;
+    margin-block-start: 0.15em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: 1000 !important;
+	overflow-y: hidden;
+
+}
+/* .articleTitre h3{
+	overflow-y: hidden;
+	font-weight: 600;
+} */
+.slogan{
+	font-size: 25px;
+
+}
+
+.section2{
+	align-items: center;
+	width: 100%;
+	height: 50vh;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	text-align: center;
+}
+
+.format{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.format li{
+	width: 200px;
+	height: 50px;
+	background: #ffc107;
+	border-radius: 10px;
+	text-align: center;
+	margin: 10px;
+	padding-top: 15px;
+}
+
+.slogan .big{
+	font-size: 40px;
+	font-weight: 700;
+}
+
+.createCompte{
+	position:relative;
+	width: 100%;
+	height: 100vh;
+	padding-top: 100px;
+	
+}
+
+.connexion{
+	width: 70%;
+	height: 100%;
+	background: #063666;
+}
+.rechercher{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 70%;
+}
+
+.mybtn{
+	width: 35%;
+	height: 50px;
+	background-color: #8e0412;
+	color: white;
+	border-radius: 30px;
+	
+}
+
+
+
+.mybtn:hover{
+	background: royalblue;
+}
+.mySearch{
+	width: 40%;
+}
+
+.inputRecherche{
+	width: 80%;
+	height: 50px;
+	outline: none;
+	border-bottom-left-radius: 30px;
+	border-top-left-radius: 30px;
+	padding: 20px;
+}
+
+.btnChercher{
+	width: 50px;
+	height: 50px;
+	background-color: #8e0412;
+	color: white;
+	border-bottom-right-radius: 30px;
+	border-top-right-radius: 30px;
+	border: none;
+	
+}
+
+.lesInput{
+	width: 60%;
+}
+
+/* formulaire */
+.formulaire{
+	width: 100%;
+	position: relative;
+    display: flex;
+    justify-content: center;
+}
+.formulaire .mybtn{
+	position: relative;
+	justify-content: center !;
+	width: 100%;
+	margin-bottom: 20px;
+	margin-top: 10px;
+}
+
+.bodyForme{
+	width: 40%;
+}
+
+.espace{
+	margin-right: 10px !important;
+}
+
+.fermer:hover{
+	cursor: pointer;
+}
+
+.cacher{
+	display: none;
+	transition: all 1;
+}
+
+header {
+	overflow: hidden;
+}
+
+.error-message{
+	color: red;
+}
+
+.bouton{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	text-align: center;
+}
+
+.section-inscription{
+	padding-top: 50px;
+	width: 100%;
+	position: relative;
+	display: flex;
+	flex-direction: row;
+}
+ .section-inscription section{
+	width: 100%;
+ }
+
+ /* CSS pour les petits écrans (par exemple, jusqu'à 768px de large) */
+ @media (max-width:950px) {
+	.section2, .rechercher{
+		width: 100%;
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		font-size: 15px;
+
+	}
+	
+	.rechercher .mybtn{
+		
+		margin-top: 20px;
+	}
+ }
+ @media (max-width: 600px) {
+	.section2, .rechercher{
+		width: 100%;
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		font-size: 13px;
+
+	}
+	
+	.logos img{
+		width: 100px;
+		height: 100px;
+	}
+	h1{
+		font-size: 18px;
+	}
+	h2{
+		font-size: 15px;
+	}
+	h3{
+		font-size: 13px;
+	}
+	.mySearch{
+		position: relative;
+		width: 100%;
+		text-align: center;
+		align-items: center;
+		display: flex;
+		justify-content: center;
+	}
+	
+
+	.lesInput{
+		width: 90%;
+		
+	}
+	
+	
+	.rechercher .mybtn{
+		width: 80%;
+		height: 50px;
+		margin-top: 20px;
+	}
+	.articleTitre h1 {
+	  font-size: 24px; /* Définissez la taille de la police souhaitée pour les petits écrans */
+	}
+	.articleTitre h3 {
+	  font-size: 16px; /* Définissez la taille de la police souhaitée pour les petits écrans */
+	}
+	.slogan {
+	  font-size: 14px; /* Définissez la taille de la police souhaitée pour les petits écrans */
+	}
+  }
+  
+  /* CSS pour les écrans moyens et grands */
+  @media (min-width: 769px) {
+	.articleTitre h1 {
+	  font-size: 36px; /* Définissez la taille de la police souhaitée pour les écrans moyens et grands */
+	}
+	.articleTitre h3 {
+	  font-size: 24px; /* Définissez la taille de la police souhaitée pour les écrans moyens et grands */
+	}
+	.slogan {
+	  font-size: 18px; /* Définissez la taille de la police souhaitée pour les écrans moyens et grands */
+	}
+  }
+  
+  .serch{
+	display :flex;
+	flex-direction: row;
+	justify-content: space-around;
+  }
+  main{
+	padding-top: 55px;
+	min-height: 60vh;
+	
+  }
+  .detail{
+	height:100vh;
+  }
+  .styleCard{
+	width: '80%';
+    height: '100vh';
+    margin: '0 auto';
+    display: 'flex';
+    flex-direction: 'column';
+    justify-content: 'center';
+    position: 'relative';
+  }
+
+  p{
+	text-align: justify;
+  }
+  .card-body{
+	justify-content: space-between;
+  }
+  .fleche{
+	margin-left: 10px;
+  }
+  .navbar-nav{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+
+  }
+.centrer{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+/* Paiement.css */
+.paiement{
+	position: relative;
+	width: 100%;
+}
+
+.droitePaiement{
+	left: 8%;
+	width: 80%;
+	position: relative;
+	justify-content: center;
+	text-align: center;
+	align-items: center;
+}
+.droitePaiement div button{
+	margin: 20px;
+	
+	border-radius: 5px;
+	background: royalblue;
+	
+}
+
+.row::after {
+	content: "";
+	clear: both;
+	display: table;
+  }
+  
+  /* .row {
+	border-left: 2px solid #000; /* Couleur de la ligne verticale 
+  } */
+
+  .modePaiement li img{
+	width: 25%;
+  }
+
+  .password-input-wrapper {
+	position: relative;
+  }
+  .password-input button {
+	position: absolute;
+	top: 50%;
+	right: 5px; /* Ajustez ceci pour ajuster la position de l'icône */
+	transform: translateY(-50%);
+	background: none;
+	border: none;
+	cursor: pointer;
+  }
+  /* profile */
+  .section-profil{
+	display: flex;
+	justify-content: space-around;
+	background: rgba(235, 230, 230, 0.909);
+	align-items: center;
+	color: black;
+	height: 80vh;
+	width: 100%;
+  }
+  .vertical-line {
+	align-items: center;justify-content: center;
+	border-left: 5px solid white;
+	height: 50%;
+  }
+  
+  .section-profil p span{
+	margin: 20px; /* Espace entre les paragraphes */
+	text-transform: uppercase;
+	font-weight: bold;
+  }
+  .section-profil section{
+	margin-left: 50px;
+  }
+  .sary{
+	width: 100%;
+	position:relative;
+	text-align: center;
+	align-items: center;
+	
+  }
+  li .span{
+	margin-left: 15px;
+  }
+  .sary img{
+	border-radius: 50%;
+  }
+  
+  .module{
+	width: 20%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	
+  }
+  .formationDetails{
+	width: 100%;
+	align-items: center;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+  }
+
+  .styleFooter{
+	border:none;
+	background: rgba(235, 230, 230, 0.909);
+	color: rgb(4, 4, 4);
+  }
+
+  .boutonFiliere{
+	display: flex;
+	flex-direction: row;
+	justify-content:space-around;
+	text-align: center;
+	align-items: center;
+  }
+
+  .formationApayer{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	
+  }
+
+  .formationApayer button{
+	margin: 20px;
+	width: 200px;
+	text-transform: center;
+	align-items: center;
+  }
