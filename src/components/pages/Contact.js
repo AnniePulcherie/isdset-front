@@ -35,7 +35,7 @@ const Contact = () => {
                                 <div className="col-lg-6">
                                     <div className="info-box card">
                                         <i className="bi bi-geo-alt"></i>
-                                        <h3>Address</h3>
+                                        
                                         <p>Villa Les Fleuron</p>
                                         <p>Lot A0313A  Plle 11/47  Carreau N°03 B MangaranoTamatave (En face du Coiffeur Fivarotankazo REGION)</p>
                                     </div>
@@ -43,7 +43,7 @@ const Contact = () => {
                                 <div className="col-lg-6">
                                     <div className="info-box card">
                                         <i className="bi bi-telephone"></i>
-                                        <h3>Appeler nous</h3>
+                                        
                                         <p>0346813448</p>
                                         <p>0340373907</p>
                                     </div>
@@ -51,7 +51,7 @@ const Contact = () => {
                                 <div className="col-lg-6">
                                     <div className="info-box card">
                                         <i className="bi bi-envelope"></i>
-                                        <h3>Email Us</h3>
+                                        
                                         <p>isdsetuniversity@gmail.com</p>
                                         
                                     </div>
@@ -59,7 +59,7 @@ const Contact = () => {
                                 <div className="col-lg-6">
                                     <div className="info-box card">
                                         <i className="bi bi-clock"></i>
-                                        <h3>Open Hours</h3>
+                                       
                                         <p>Monday - Friday</p>
                                         <p>9:00AM - 05:00PM</p>
                                     </div>

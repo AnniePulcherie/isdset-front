@@ -11,9 +11,11 @@ const Dashboard = () => {
     const apiURL = process.env.REACT_APP_API_USER_URL;
     const [nbByFiliere, setNbByFiliere] = useState(null);
     const [nbByNiveau, setNbByNiveau] = useState(null);
+    const [listePaiement, setListePaiement] = useState(null);
+    const [nombreInscriptionPayer, setNombreInscriptionPayer] = useState();
     const nombreInscrit = async()=>{
         try{
-            const reponse = await axios.get(`${apiURL}inscription/nombre`);
+            const reponse = await axios.get(`${apiURL}inscription/total/inscrit`);
             console.log(reponse.data);
             setNbByFiliere(reponse.data.statsByFiliere);
             setNbByNiveau(reponse.data.statsByNiveau);
@@ -21,9 +23,31 @@ const Dashboard = () => {
             console.log(error);
         }
     }
+    const nombreInscriptionPaye = async()=>{
+        try{
+        const reponse = await axios.get(`${apiURL}inscription/inscrits/payer`);
+        console.log(reponse);
+        setNombreInscriptionPayer(reponse.data)
+        }catch(error){
+            console.log(error);
+        }
+    }
+
+    const listePaiementEnAttente = async()=>{
+        try{
+            const reponse = await axios.get(`${apiURL}paiement/paiementEnAttente/total`);
+            console.log(reponse.data);
+            setListePaiement(reponse.data);
+        }catch(error){
+            console.log(error);
+        }
+
+    }
 
     useEffect(()=>{
         nombreInscrit();
+        nombreInscriptionPaye();
+        listePaiementEnAttente();
     },[]);
     
     return (
@@ -95,78 +119,66 @@ const Dashboard = () => {
                                 </div>
                             </div>
                             ))}
-                            
-                            <div className="col-12">
-                            <div className="card recent-sales overflow-auto">
+                            { nombreInscriptionPayer &&(
+                            <div className="col-xxl-4 col-md-6">
+                                <div className="card info-card revenue-card">
 
-                                <div className="filter">
-                                <Link to='#' className="icon"  data-bs-toggle="dropdown"><i className="bi bi-three-dots"></i></Link>
-                                <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li className="dropdown-header text-start">
-                                    <h6>Filter</h6>
-                                    </li>
 
-                                    <li><Link to='#' className="dropdown-item" >Today</Link></li>
-                                    <li><Link to='#' className="dropdown-item" >This Month</Link></li>
-                                    <li><Link to='#' className="dropdown-item" >This Year</Link></li>
-                                </ul>
-                                </div>
+                                    <div className="card-body">
+                                    <h5 className="card-title">Nombre d'inscription payer : {nombreInscriptionPayer}</h5>
 
-                                <div className="card-body">
-                                <h5 className="card-title">Recent Sales <span>| Today</span></h5>
-
-                                <table className="table table-borderless datatable">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Customer</th>
-                                        <th scope="col">Product</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Status</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <th scope="row">#2457</th>
-                                        <td>Brandon Jacob</td>
-                                        <td><Link to='#'  className="text-primary">At praesentium minu</Link></td>
-                                        <td>$64</td>
-                                        <td><span className="badge bg-success">Approved</span></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">#2147</th>
-                                        <td>Bridie Kessler</td>
-                                        <td><Link to='#'  className="text-primary">Blanditiis dolor omnis similique</Link></td>
-                                        <td>$47</td>
-                                        <td><span className="badge bg-warning">Pending</span></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">#2049</th>
-                                        <td>Ashleigh Langosh</td>
-                                        <td><Link to='#'  className="text-primary">At recusandae consectetur</Link></td>
-                                        <td>$147</td>
-                                        <td><span className="badge bg-success">Approved</span></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">#2644</th>
-                                        <td>Angus Grady</td>
-                                        <td><Link to='#'  className="text-primar">Ut voluptatem id earum et</Link></td>
-                                        <td>$67</td>
-                                        <td><span className="badge bg-danger">Rejected</span></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">#2644</th>
-                                        <td>Raheem Lehner</td>
-                                        <td><Link to='#'  className="text-primary">Sunt similique distinctio</Link></td>
-                                        <td>$165</td>
-                                        <td><span className="badge bg-success">Approved</span></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                    </div>
 
                                 </div>
-
                             </div>
+                            )}
+                            <div className="col-12">
+                                <div className="card recent-sales overflow-auto">
+
+                                    <div className="filter">
+                                    <Link to='#' className="icon"  data-bs-toggle="dropdown"><i className="bi bi-three-dots"></i></Link>
+                                    <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                        <li className="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                        </li>
+
+                                        <li><Link to='#' className="dropdown-item" >Today</Link></li>
+                                        <li><Link to='#' className="dropdown-item" >This Month</Link></li>
+                                        <li><Link to='#' className="dropdown-item" >This Year</Link></li>
+                                    </ul>
+                                    </div>
+
+                                    <div className="card-body">
+                                    <h5 className="card-title">Recent Sales <span>| Today</span></h5>
+
+                                    <table className="table table-borderless datatable">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Montant</th>
+                                            <th scope="col">Motifs</th>
+                                            <th scope="col">Mois</th>
+                                            <th scope="col">Status</th>
+                                        </tr>
+                                        </thead>
+                                        {listePaiement && listePaiement.map((liste)=>(
+                                            
+                                        <tbody>
+                                        <tr>
+                                            <th scope="row">{ new Date(liste.dateVersement).getDate()}/{liste.dateVersement && new Date(liste.dateVersement).getMonth() + 1}/{liste.dateVersement && new Date(liste.dateVersement).getFullYear()}</th>
+                                            <td>{liste.montantTotal}</td>
+                                            <td>{liste.motifs}</td>
+                                            <td>{liste.nombreMois}</td>
+                                            <td><span className="badge bg-success">{liste.etatPaiement}</span></td>
+                                        </tr>
+                                       
+                                        </tbody>
+                                        ))}
+                                    </table>
+
+                                    </div>
+
+                                </div>
                             </div>
                             {/* <!-- End Recent Sales --> */}
 
@@ -189,7 +201,7 @@ const Dashboard = () => {
 
                                     <div className="card-body pb-0">
                                         <h5 className="card-title">Top Selling <span>| Today</span></h5>
-
+                                            
                                         <table className="table table-borderless">
                                             <thead>
                                             <tr>
@@ -200,10 +212,12 @@ const Dashboard = () => {
                                                 <th scope="col">Revenue</th>
                                             </tr>
                                             </thead>
+                                            {listePaiement && listePaiement.map((listes)=>(
                                             <tbody>
+                                           
                                             <tr>
                                                 <th scope="row"><img src="assets/img/product-1.jpg" alt=""/></th>
-                                                <td><Link to='#'  className="text-primary fw-bold">Ut inventore ipsa voluptas nulla</Link></td>
+                                                <td><Link to='#'  className="text-primary fw-bold">{listes.id}</Link></td>
                                                 <td>$64</td>
                                                 <td className="fw-bold">124</td>
                                                 <td>$5,828</td>
@@ -236,9 +250,11 @@ const Dashboard = () => {
                                                 <td className="fw-bold">41</td>
                                                 <td>$3,239</td>
                                             </tr>
+                                            
                                             </tbody>
+                                            ))}
                                         </table>
-
+                                           
                                     </div>
 
                                 </div>

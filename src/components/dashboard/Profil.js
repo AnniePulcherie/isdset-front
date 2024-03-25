@@ -11,17 +11,18 @@ const Profil = () => {
     const navigate = useNavigate();
     const [dateN, setDateN] = useState(null);
     const isSidebarOpen = useSelector(selectIsSidebarOpen);
-    const inscription = useSelector((state) => state.inscription);
-    const [profile, setProfile] = useState(null);
+    const etudiant = useSelector((state) => state.etudiant);
+    const inscription = useSelector((state) =>state.inscription);
+    // const [profile, setProfile] = useState(null);
     const apiURL = process.env.REACT_APP_API_USER_URL;
     const [filiere, setFiliere] = useState(null);
-    const verification = () => {
-        if (Array.isArray(inscription) && inscription.length > 0) {
-            setProfile(inscription[0]);
-        } else {
-            setProfile(inscription);
-        }
-    }
+    // const verification = () => {
+    //     if (Array.isArray(inscription) && inscription.length > 0) {
+    //         setProfile(inscription[0]);
+    //     } else {
+    //         setProfile(inscription);
+    //     }
+    // }
     const getFiliere = async()=>{
         try{
             const response = await axios.get(`${apiURL}filiere/${inscription.FiliereId}`);
@@ -36,13 +37,13 @@ const Profil = () => {
             navigate('/login');
         }
 
-        verification();
+        // verification();
         getFiliere();
-        if (profile) {
-            const dateDeNaissance = new Date(profile.dateDeNaissance);
+        if (etudiant) {
+            const dateDeNaissance = new Date(etudiant.dateDeNaissance);
             setDateN(dateDeNaissance);
         }
-    }, [user, inscription, profile]);
+    }, [user, inscription, etudiant]);
 
     return (
         <div>
@@ -54,24 +55,24 @@ const Profil = () => {
                     <div className="section-profil">
                     
                         <div className="col-md-6">
-                        {profile &&(
+                        {etudiant &&(
                             <section>
-                                <p>NOM : <span>{profile.nom}</span></p>
-                                <p>PRENOM :<span>{profile.prenom}</span></p>
+                                <p>NOM : <span>{etudiant.nom}</span></p>
+                                <p>PRENOM :<span>{etudiant.prenom}</span></p>
                                 <p>DATE DE NAISSANCE <span>{dateN && dateN.getDate()}/{dateN && dateN.getMonth() + 1}/{dateN && dateN.getFullYear()}</span></p>
-                                <p>Fonction : <span>{profile.fonction}</span></p>
+                                <p>Fonction : <span>{etudiant.fonction}</span></p>
                                 
                             </section>
                             )}
                         </div>
                         <div className="vertical-line"></div>
                         <div className="col-md-6">
-                        {profile &&(
+                        {etudiant &&(
                             <section>
-                                <p>EMAIL : <span>{profile.email}</span></p>
-                                <p>TELEPHONE : <span>{profile.telephone}</span></p>
-                                <p>NOM DU MERE: <span>{profile.nomMere}</span></p>
-                                <p>NOM DU PERE : <span>{profile.nomPere}</span></p>
+                                <p>EMAIL : <span>{etudiant.email}</span></p>
+                                <p>TELEPHONE : <span>{etudiant.telephone}</span></p>
+                                <p>NOM DU MERE: <span>{etudiant.nomMere}</span></p>
+                                <p>NOM DU PERE : <span>{etudiant.nomPere}</span></p>
                             </section>
                         )}
                         </div>

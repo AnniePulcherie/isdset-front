@@ -91,6 +91,7 @@ const nomFormation = [
   const [showModalA, setShowModalA] = useState(false);
   // État pour les données de la formation à modifier
   const [formationAModifier, setFormationAModifier] = useState({
+    nom:'',
     typeFormation: '',
     duree,
     fraisGeneraux: 0,
@@ -170,7 +171,6 @@ const nomFormation = [
       const response = await axios.get(`${apiURL}formation/${id}`);
       setFormationAModifier(response.data);
       console.log(response.data);
-      console.log(formationAModifier);
     } catch (error) {
       console.error('Erreur lors de la récupération de la formation :', error);
     }
@@ -188,12 +188,13 @@ const nomFormation = [
   const soumettreModification = async () => {
     try {
       await axios.put(`${apiURL}formation/${selectedFormationId}`, formationAModifier);
+      console.log(formationAModifier);
       console.log('Formation mise à jour avec succès');
       // Réinitialisez les états après la mise à jour
       setFormationAModifier({
-        nom,
+        nom :'',
         typeFormation: '',
-        duree,
+        duree: '',
         fraisGeneraux: 0,
         droitInscription: 0,
         droitExamen: 0,
@@ -463,7 +464,7 @@ const nomFormation = [
             <table className="table">
               <thead>
                 <tr>
-                  <th>Nom</th>
+                  {/* <th>Nom</th> */}
                   <th>Type de formation</th>
                   <th>Frais Généraux</th>
                   <th>Droit d'inscription</th>
@@ -476,7 +477,7 @@ const nomFormation = [
               <tbody>
                 {formations.map((formation) => (
                   <tr key={formation.id}>
-                    <td>{formation.nom}</td>
+                    {/* <td>{formation.nom}</td> */}
                     <td>{formation.typeFormation}</td>
                     <td>{formation.fraisGeneraux} Ar</td>
                     <td>{formation.droitInscription} Ar</td>

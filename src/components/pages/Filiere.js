@@ -9,80 +9,82 @@ import { useSelector } from 'react-redux';
 
 const Filiere = () => {
   const apiURL = process.env.REACT_APP_API_USER_URL;
-  const user = useSelector((state) => state.user);
+  // const user = useSelector((state) => state.user);
   const [filieres, setFilieres] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState(''); // État du filtre
-  const etudiante = useSelector((state) => state.inscription);
-  const [formation, setFormation] = useState([]);
-  const navigate = useNavigate();
-  const [imageUrls, setImageUrls] = useState([]);
-  let imageUrlsObject = [];
-  const choixFiliere = async (filiereId) => {
-    console.log("etudiant", etudiante.id);
-    console.log('filiere', filiereId);
+  // const etudiante = useSelector((state) => state.inscription);
+  // const [formation, setFormation] = useState([]);
+  // const navigate = useNavigate();
+  // const [imageUrls, setImageUrls] = useState([]);
+  // let imageUrlsObject = [];
+  // const choixFiliere = async (filiereId) => {
+  //   console.log("etudiant", etudiante.id);
+  //   console.log('filiere', filiereId);
     
-    const formData = new FormData();
-    formData.append("EtudiantId", etudiante.id);
-    formData.append("FiliereId", filiereId);
+  //   const formData = new FormData();
+  //   formData.append("EtudiantId", etudiante.id);
+  //   formData.append("FiliereId", filiereId);
     
-    if (formation.length > 0) {
-      try {
-        const response = await axios.post(`${apiURL}etudiantFiliere/`, formData, {
-          headers: { "Content-Type": 'application/json' }
-        });
-        console.log(response.data);
-        alert(response.data.message);
-      } catch (error) {
-        console.error('Erreur lors de l\'inscription :', error);
-      }
-    } else {
-      navigate('/formation');
-    }
-  };
+  //   if (formation.length > 0) {
+  //     try {
+  //       const response = await axios.post(`${apiURL}etudiantFiliere/`, formData, {
+  //         headers: { "Content-Type": 'application/json' }
+  //       });
+  //       console.log(response.data);
+  //       alert(response.data.message);
+  //     } catch (error) {
+  //       console.error('Erreur lors de l\'inscription :', error);
+  //     }
+  //   } else {
+  //     navigate('/formation');
+  //   }
+  // };
 
-  const getFormation = async () => {
+  // const getFormation = async () => {
+  //   try {
+  //     const response = await axios.get(`${apiURL}inscription/formation/${etudiante.id}`);
+  //     setFormation(response.data);
+  //     console.log(response);
+  //   } catch (error) {
+  //     console.error('Erreur lors de la récupération de la formation :', error);
+  //   }
+  // };
+  const fetchFilieres= async()=>{
     try {
-      const response = await axios.get(`${apiURL}inscription/formation/${etudiante.id}`);
-      setFormation(response.data);
-      console.log(response);
+      const response = await axios.get(`${apiURL}filiere`);
+      setFilieres(response.data);
+      console.log(response.data);
+      // uploadImages(response.data);
     } catch (error) {
-      console.error('Erreur lors de la récupération de la formation :', error);
+      console.error('Erreur lors du chargement des filières :', error);
     }
-  };
+  }
 
   useEffect(() => {
-    getFormation();
-    async function fetchFilieres() {
-      try {
-        const response = await axios.get(`${apiURL}filiere`);
-        setFilieres(response.data);
-        console.log(response.data);
-        uploadImages(response.data);
-      } catch (error) {
-        console.error('Erreur lors du chargement des filières :', error);
-      }
-    }
+    // getFormation();
+    
     fetchFilieres();
-    console.log(imageUrls);
-  }, [imageUrls]);
+    // console.log(imageUrls);
+  }, []);
 
-  const uploadImages = async (filieres) => {
-    try {
-      const imageUrlsPromise = await Promise.all(filieres.map(async (filiere) => {
-        const image = await axios.get(`${apiURL}uploads/${filiere.image}`);
-        console.log(image.data);
-        return image.data;
-      }));
-      imageUrlsObject.push(imageUrlsPromise.data);
-       console.log(imageUrlsPromise);
-      //  imageUrlsObject = Object.assign({}, ...imageUrlsPromise);
-      // console.log(imageUrlsObject);
-      setImageUrls(imageUrlsObject);
-    } catch (error) {
-      console.error('Erreur lors du chargement des images :', error);
-    }
-  };
+  // const uploadImages = async (sary) => {
+  //   console.log(sary);
+  //   try {
+      
+  //       const image = await axios.get(`${apiURL}uploads/${sary}`);
+  //       console.log(image.data);
+  //       return image.data;
+      
+  //     //imageUrlsObject.push(imageUrlsPromise.data);
+  //     //  console.log(imageUrlsPromise);
+  //     //  imageUrlsObject = Object.assign({}, ...imageUrlsPromise);
+  //     // console.log(imageUrlsObject);
+  //     //setImageUrls(imageUrlsObject);
+  //   } catch (error) {
+  //     console.error('Erreur lors du chargement des images :', error);
+  //   }
+  // };
 
   const filteredFilieres = filieres.filter((filiere) => {
     if (filter && filiere.filter !== filter) {
@@ -124,25 +126,19 @@ const Filiere = () => {
             </Form.Group>
           </section>
           <div className="row">
-            {filteredFilieres && filteredFilieres.map((filiere) => (
-              <div className="col-md-4" key={filiere.id}>
-                <Card style={{ width: '18rem', margin: '10px', height: '20rem'}}>
-
-                  { imageUrls && imageUrls.map((imageData) => (
-                      <div key={imageData}>
-                         
-                        <img src={imageData} alt={`sary `} />
-                      </div>
-                    ))}
-
+            {filteredFilieres && filteredFilieres.map((matiere) => (
+              <div className="col-md-4" key={matiere.id}>
+                <Card style={{ width: '18rem', margin: '10px', height: '30rem'}}>
+                  <img src={`${apiURL}uploads/${matiere.image}`} alt={`sary `} />
+                    
                   <Card.Body>
-                    <Card.Title>{filiere.nom}</Card.Title>
+                    <Card.Title>{matiere.nom}</Card.Title>
                     <Card.Text>
-                      <strong>Vacation :</strong> {filiere.vacation}
+                      <strong>Vacation :</strong> {matiere.vacation}
                     </Card.Text>
                     <div className='boutonFiliere'>
-                      <Link to={`/formation/${filiere.id}`}  variant="primary">En savoir plus</Link>
-                      <button onClick={() => choixFiliere(filiere.id)} className='btn btn-primary' variant="primary">S'inscrire</button>
+                      <Link to={`/formation/${matiere.id}`} className='btn btn-primary'>En savoir plus</Link>
+                      {/* <button onClick={() => choixFiliere(matiere.id)} className='btn btn-primary' variant="primary">S'inscrire</button> */}
                     </div>
                   </Card.Body>
                 </Card>

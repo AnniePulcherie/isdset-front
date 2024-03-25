@@ -17,9 +17,9 @@ const Module = () => {
   const [selectedModuleId, setSelectedModuleId] = useState(null);
   const [modifierFormation, setModifierFormation] = useState(false);
   const isSidebarOpen = useSelector(selectIsSidebarOpen);
-  const handleShowModalM = (id) => {
-    setSelectedModuleId(id);
-    getUeById(id);
+  const handleShowModalM = (moduleChoisi) => {
+    setSelectedModuleId(moduleChoisi.id);
+    getUeById(moduleChoisi.id);
     setShowModalM(true);
     setShowModal(false);
     
@@ -114,6 +114,7 @@ const Module = () => {
     setModifierFormation(false);
     setFormData({ nom: '', competencesVise: '', cours: '', credit: '',exercice:'',semestre:'',FiliereId:'', UniteEnseignementId: 0 });
     // Réinitialisez également les états de la formation à modifier ici si nécessaire
+    setShowModalM(false);
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -174,7 +175,6 @@ const Module = () => {
             <th>Cours</th>          
             <th>Exercice</th>
             <th>Semestre</th>
-            
             <th>Actions</th>
           </tr>
         </thead>
@@ -190,7 +190,7 @@ const Module = () => {
               <td>{module.semestre}</td>
               
               <td>
-                <Button variant="primary" onClick={() => handleShowModalM(module.id)}>Modifier</Button>
+                <Button variant="primary" onClick={() => handleShowModalM(module)}>Modifier</Button>
                 <Button variant="danger" onClick={() => supprimerFormation(module.id)}>Supprimer</Button>
               </td>
             </tr>
@@ -277,13 +277,13 @@ const Module = () => {
       </Modal>
 
       <section className='sectioon'>
-      <Modal show={showModalM} onHide={handleCloseModal}>
+      <Modal show={showModalM} onHide={handleCloseModalM}>
         <Modal.Header closeButton>
-          <Modal.Title>Ajouter une Module</Modal.Title>
+          <Modal.Title>Modifier une Module</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group controlId="UniteEnseignementId">
+            <Form.Group controlId="FiliereId">
                 <Form.Label>Filiere</Form.Label>
                 <Form.Control as="select" name="FiliereId" value={formDataModifier.FiliereId} onChange={handleInputChange}>
                     <option value="">Sélectionnez une filière</option>
@@ -298,7 +298,7 @@ const Module = () => {
             <Form.Group controlId="UniteEnseignementId">
                 <Form.Label>Unité d'enseignement</Form.Label>
                 <Form.Control as="select" name="UniteEnseignementId" value={formDataModifier.UniteEnseignementId} onChange={handleInputChange}>
-                    <option value="">Sélectionnez une filière</option>
+                    <option value="">Sélectionnez l'unité enseignement</option>
                     {uniteE && uniteE.map((ue) => (
                     <option key={ue.id} value={ue.id}>
                         {ue.code}
@@ -317,7 +317,7 @@ const Module = () => {
             </Form.Group>
             <Form.Group controlId="cours">
               <Form.Label>Cours</Form.Label>
-              <Form.Control type="file" name="cours" value={formDataModifier.cours} onChange={handleFileChange} />
+              <Form.Control type="file" name="cours" onChange={handleFileChange} />
             </Form.Group>
             
             <Form.Group controlId="credit">
@@ -326,10 +326,10 @@ const Module = () => {
             </Form.Group>
             <Form.Group controlId="exercice">
               <Form.Label>Exercices</Form.Label>
-              <Form.Control type="file" name="exercice" value={formDataModifier.exercice} onChange={handleFileChange} />
+              <Form.Control type="file" name="exercice" onChange={handleFileChange} />
             </Form.Group>
             <Form.Group controlId="semestre">
-              <Form.Label>Examen</Form.Label>
+              <Form.Label>Semestre</Form.Label>
               <Form.Control type="number" name="semestre" value={formDataModifier.semestre} onChange={handleInputChange} />
             </Form.Group>
             
@@ -337,9 +337,6 @@ const Module = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={annulerModification}>
-            Annuler
-          </Button>
-          <Button variant="secondary" onClick={handleCloseModalM}>
             Annuler
           </Button>
           <Button variant="primary" onClick={soumettreModification}>

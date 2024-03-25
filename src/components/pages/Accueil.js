@@ -9,6 +9,7 @@ import Menu from './Menu';
 import Footer from './footer';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import Aos from 'aos';
 import { setEtudiant } from '../../app/etudiantSlice';
 const Accueil = () => {
    
@@ -16,23 +17,34 @@ const Accueil = () => {
     const user = useSelector((state)=>state.user);
     const apiURL = process.env.REACT_APP_API_USER_URL;
     const dispatch = useDispatch();
-    const [etudiante, setEtudiante] = useState(null);
+    const etudiant= useSelector((state)=>state.etudiant);
     
-    const getEtudiant = async()=>{
+    // const getEtudiant = async()=>{
         
-        try{
-          const reponse = await axios.get(`${apiURL}etudiant/user/${user.id}`);
-          setEtudiante(reponse.data.etudiant);
-          console.log(reponse.data.etudiant);
-        //   dispatch(setEtudiant(etudiante));
-        }catch(err){
-          console.log(err);
-        }
-      }
+    //     try{
+    //       const reponse = await axios.get(`${apiURL}etudiant/user/${user.id}`);
+    //       setEtudiante(reponse.data.etudiant);
+    //       console.log(reponse.data.etudiant);
+    //     //   dispatch(setEtudiant(etudiante));
+    //     }catch(err){
+    //       console.log(err);
+    //     }
+    // }
     
+    const getVerification = async ()=>{
+        try{
+          const verification = await axios.get(`${apiURL}verification/${etudiant.id}`);
+          console.log(verification.data);
+  
+          }catch(error){
+            console.log(error);
+          }
+      }
 
       useEffect(()=>{
-        getEtudiant();
+        // getEtudiant();
+        Aos.init({duration: 2000});
+        getVerification();
       },[]);
     return (
         <div className='myAccueil'>
@@ -42,11 +54,13 @@ const Accueil = () => {
             
                 <section className='sectionTitre'>
                     <article className='articleTitre'>
-                        <h1>INSTITUT SUPERIEUR DE DEVELOPPEMENT</h1>
-                        <h3>SCIENCES, EDUCATION et TECHNOLOGIE</h3>
+                        <h1>Institut Superieur de Developpement</h1>
+                        <h3>Sciences, Education et Technologie</h3>
                     </article>
-                    <p className='slogan'>Construisons votre avenir et changer le monde</p>
-                    <p>Apprener à votre rythme</p>
+                    <div className= 'slogan'>
+                        <p>Construisons votre avenir et changer le monde </p>
+                        <p>en apprenant à votre rythme</p>
+                    </div>
                     <img className='autre-logo' src={sary1} alt='logo' />
                 </section>
                 
@@ -69,17 +83,21 @@ const Accueil = () => {
                     <div className='mySearch'>
                         <ul className='format'>
                             <li>A DISTANCE</li>
-                            <li>EN LIGNE</li>
                             <li>EN SALLE</li>
                         </ul>
                     </div>
                 </section>
+                <div className="filiere-Accueil"></div>
                 <section>
-                <h1>Actualités</h1>
-                <ListeFiliere />
+                <h1>Nos Filières</h1>
+                <div data-aos = "fade-left"><ListeFiliere /></div>
+                
                 </section>
         </main>
-        <Footer />
+        <footer>
+            <Footer />
+        </footer>
+        
         </div>
     );
 };

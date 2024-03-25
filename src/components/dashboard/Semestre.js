@@ -6,8 +6,8 @@ import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 const Semestre = () => {
-    const inscription = useSelector((state) => state.inscription);
-    const paiement = inscription.etatInscription;
+    // const inscription = useSelector((state) => state.inscription);
+    // const paiement = inscription.etatInscription;
     const isSidebarOpen = useSelector(selectIsSidebarOpen);
     const { semestre } = useParams();
     const modules = useSelector((state)=>state.modules);

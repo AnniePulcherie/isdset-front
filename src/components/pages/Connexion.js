@@ -7,6 +7,10 @@ import validator from 'validator';
 import { setInscription } from '../../app/inscriptionSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { setEtudiant } from '../../app/etudiantSlice';
+import { setModulaire } from '../../app/modulaireSlice';
+import { setFormations } from '../../app/formationsSlice.js';
+import { setListeFilieres } from '../../app/listeFiliereSlice';
 const Connexion = () => {
   const apiURL = process.env.REACT_APP_API_USER_URL;
   const dispatch = useDispatch();
@@ -52,22 +56,29 @@ const Connexion = () => {
         }
       );
       
-      const userData = await response.data;
+      const userData = await response.data.reponse;
       console.log(userData);
       const user = userData.user;
       const etudiant = userData.etudiant;
+      const inscription = userData.inscription;
+      const modulaire = userData.modulaire;
+      const listeFormation = userData.listeFormation;
+      const listeFilieres = userData.listeFilieres;
       console.log(userData.etudiant);
       if(!userData){
         
         console.log(message);
       }    
       dispatch(setUser(user));
-      dispatch(setInscription(etudiant));
+      dispatch(setEtudiant(etudiant));
+      dispatch(setInscription(inscription));
+      dispatch(setModulaire(modulaire));
+      dispatch(setFormations(listeFormation));
+      dispatch(setListeFilieres(listeFilieres));
       console.log(userData);
       if(user.role === "admin"){        
         navigate(`/admin/${userData.user.id}`);
-      }else{
-       
+      }else{       
         navigate('/');
       }
      

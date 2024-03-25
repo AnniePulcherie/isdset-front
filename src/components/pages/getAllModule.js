@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { Modal, Button, Form, Col } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-const GetAllModules = ({inscription}) => {
+const GetAllModules = ({onModulesSelect}) => {
 
   const [showModal, setShowModal] = useState(false);
   const [selectedModules, setSelectedModules] = useState([]);
-  const etudiant = useSelector((state)=>state.inscription);
+  const etudiant = useSelector((state)=>state.etudiant);
   const [modules, setModules] = useState([]);
   const navigate = useNavigate();
 console.log(etudiant);
@@ -46,7 +46,7 @@ console.log(etudiant);
 
   const handleSubmit = async() => {
     // Gérez ici l'envoi des modules sélectionnés au backend, par exemple en utilisant une requête HTTP.
-  // onModulesSelect(selectedModules); 
+   onModulesSelect(selectedModules); 
    try{
       const post = await axios.post(`${apiURL}inscriptionModulaire/`,
       {
@@ -92,7 +92,7 @@ console.log(etudiant);
           <Button variant="secondary" onClick={handleCloseModal}>
             Annuler
           </Button>
-          <Button variant="primary" onClick={inscription}>
+          <Button variant="primary" onClick={handleSubmit}>
             Valider
           </Button>
         </Modal.Footer>

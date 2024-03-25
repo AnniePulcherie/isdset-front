@@ -20,26 +20,29 @@ const UniteEnseignement = () => {
     setShowModalA(true);
   };
   const handleCloseModalA = () => {
+    setSelectedUniteEnseignement([]);
     setShowModalA(false);
   };
-  const getUE = async (id)=>{
+  const getUE = async (id) => {
     try {
-      
-      const reponse =  await axios.get(`${apiURL}ue/${id}`);
-      console.log(reponse);
-      setSelectedUniteEnseignement(reponse.data);
-      console.log(selectedUniteEnseignement);
+        const reponse = await axios.get(`${apiURL}ue/${id}`);
+        console.log(reponse);
+        setSelectedUniteEnseignement(reponse.data);
+        console.log(selectedUniteEnseignement);
+        return reponse; // Retourne la réponse pour indiquer que la requête a réussi
     } catch (erreur) {
-      console.error('Erreur lors de la suppression de la formation :', erreur);
+        console.error('Erreur lors de la récupération de l\'unité d\'enseignement :', erreur);
     }
-  }
+};
+
   const handleEdit = (id) => {
     console.log(id);
     setUeID(id);
-    getUE(id);
-    console.log(selectedUniteEnseignement);
-    setShowModal(true);
-  };
+    getUE(id).then(() => {
+        setShowModal(true);
+    });
+};
+
   const supprimerUE = async (id) => {
     try {
       await axios.delete(`${apiURL}ue/${id}`);
@@ -68,7 +71,7 @@ const UniteEnseignement = () => {
  
   const handleAddSuccess = () => {
     chargerUE(); // Rechargez la liste des unités d'enseignement après l'ajout
-    setShowModalA(false); // Fermez le modal d'ajout
+    setShowModal(false); // Fermez le modal d'ajout
   };
   return (
     <div>

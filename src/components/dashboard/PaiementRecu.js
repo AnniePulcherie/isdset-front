@@ -29,9 +29,7 @@ const PaiementRecu = () => {
   const [montant, setMontant] = useState(0);
   const [reference, setReference] = useState('');
   const [dateVersement, setDateVersement] = useState('');
-  // État pour l'ID de la formation à modifier
-  // const [modifierFormation, setModifierFormation] = useState(false);
-  // const [formationIdAModifier, setFormationIdAModifier] = useState(null);
+  const user = useSelector((state)=>state.user);
   const [selectedFormationId, setSelectedFormationId] = useState(null);
   const [showModalM, setShowModalM] = useState(false);
   const [showModalA, setShowModalA] = useState(false);
@@ -64,18 +62,16 @@ const PaiementRecu = () => {
   };
 
   const ajouterPaiement = async () => {
-    
-    setNouvellePaiement({
-      dateVersement,
-      montant,
-      operateur,
-      reference,
-      
-    });
+    const formData = new FormData();
+    formData.append('dateVersement', dateVersement);
+    formData.append('montant',montant);
+    formData.append('operateur', operateur);
+    formData.append('reference',reference);
+    formData.append('userId', user.id);
     try {
       await axios.post(
         `${apiURL}paiementRecu`,
-        nouvellePaiement,
+        formData,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -228,7 +224,7 @@ const PaiementRecu = () => {
                       <select
                         className="form-select"
                         aria-label="Default select example"
-                        value={formationAModifier.nom}
+                        value={formationAModifier.operateur}
                         onChange={(e) => setFormationAModifier({ ...formationAModifier, operateur: e.target.value })}
                       >
                         <option value="">Sélectionnez une operateur</option>
@@ -308,9 +304,9 @@ const PaiementRecu = () => {
                 {paiementRecu.map((formation) => (
                   <tr key={formation.id}>
                     <td>{formation.operateur}</td>
-                    <td>{formation.montant}</td>
-                    <td>{formation.reference} Ar</td>
-                    <td>{formation.dateVersement} Ar</td>
+                    <td>{formation.montant} Ar</td>
+                    <td>{formation.reference}</td>
+                    <td>{formation.dateVersement} </td>
                     <td>
                       <button className="btn btn-danger espace" onClick={() => supprimerPaiement(formation.id)}>Supprimer</button>
                       <button className="btn btn-primary" onClick={() => handleModifierClick(formation.id)}>Modifier</button>

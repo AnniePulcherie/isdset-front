@@ -5,6 +5,7 @@ import { Card, Button, Modal, Col } from 'react-bootstrap';
 import { Form, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setInscription } from '../../app/inscriptionSlice';
+import GetAllModules from './getAllModule';
 
 
 const ChoisirFormation = () => {
@@ -13,13 +14,15 @@ const ChoisirFormation = () => {
   
   const [formationID, setFormationID] = useState('');
   const navigate = useNavigate();
-  const etudiant = useSelector((state)=>state.inscription);
+  const etudiant = useSelector((state)=>state.etudiant);
   const [showModal, setShowModal] = useState(false);
   const [niveau, setNiveau] = useState('');
   const [filieres, setFilieres] = useState(null);
   const [filiereId, setFiliereId] = useState('');
   const [modulaire, setModulaire] = useState(false);
   const [modules, setModules] = useState([]);
+  const [selectedModules, setSelectedModules] = useState([]);
+
   const dispatch = useDispatch();
   const niveaux = [
     {
@@ -43,7 +46,6 @@ const ChoisirFormation = () => {
       nom:"M2",
     },
   ];
-  const [selectedModules, setSelectedModules] = useState([]);
    
   const choixFormation = async(formationId)=>{
     console.log(etudiant);
@@ -55,6 +57,7 @@ const ChoisirFormation = () => {
       setFormationID(formationId);
       if(formationId ===3){
         setModulaire(true);
+        
       }else{
         setModulaire(false);
         handleShowModal();
@@ -71,9 +74,9 @@ const ChoisirFormation = () => {
       formData.append('EtudiantId',etudiant.id);
       formData.append('FormationId',formationID);
       formData.append('niveau', niveau);
-      // formData.append('FiliereId', filiereId);
-      // formData.append('selectedModule', selectedModules);
-      // console.log('selectedModule', selectedModules);
+      formData.append('FiliereId', filiereId);
+      formData.append('selectedModule', selectedModules);
+      console.log('selectedModule', selectedModules);
 
       try{
     
@@ -127,15 +130,16 @@ const ChoisirFormation = () => {
     setShowModal(false);
   };
 
-  const handleModuleChange = (e) => {
-    const module = e.target.value;
-    if (e.target.checked) { 
-      setSelectedModules([...selectedModules, module]);
+ 
+  // const handleModuleChange = (e) => {
+  //   const module = e.target.value;
+  //   if (e.target.checked) { 
+  //     setSelectedModules([...selectedModules, module]);
       
-    } else {
-      setSelectedModules(selectedModules.filter((selected) => selected !== module));
-    }
-  };
+  //   } else {
+  //     setSelectedModules(selectedModules.filter((selected) => selected !== module));
+  //   }
+  // };
   useEffect(() => {
     getFormation();
     getFilieres();
@@ -178,74 +182,52 @@ const ChoisirFormation = () => {
           </div>
           </div>
           <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>S'inscrire  à quelle niveau</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="row mb-3">
-                            <label className="col-sm-3 col-form-label">Niveau</label>
-                            <div className="col-sm-9">
-                               <select as="select" className="form-control" name="niveau" value={niveau} onChange={(e) => setNiveau(e.target.value)}>
-                                <option value="">Sélectionnez votre niveau</option>
-                                {niveaux && niveaux.map((niv) => (
-                                  <option key={niv.id} value={niv.id}>
-                                    {niv.nom}
-                                  </option>
-                                ))}
-                              </select> 
-                              <select as="select" className="form-control" name="filiere" value={filiereId} onChange={(e) => setFiliereId(e.target.value)}>
-                                <option value="">Sélectionnez une Filière</option>
-                                {filieres && filieres.map((filiere) => (
-                                  <option key={filiere.id} value={filiere.id}>
-                                    {filiere.nom}
-                                  </option>
-                                ))}
-                              </select>
-                            </div>
-          </div>
-            
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            Annuler
-          </Button>
-          <Button variant="primary" onClick={inscription}>
-            Enregistrer
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      {modulaire &&(
-        <div>
-    
-          <Modal show={showModal} onHide={handleCloseModal}>
             <Modal.Header closeButton>
-              <Modal.Title>Sélection de modules</Modal.Title>
+              <Modal.Title>S'inscrire  à quelle niveau</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <Form>
-                {modules.map((module) => (
-                  <Form.Group as={Col} key={module.id}>
-                    <Form.Check
-                      type="checkbox"
-                      label={module.nom}
-                      value={module.id}
-                      onChange={handleModuleChange}
-                    />
-                  </Form.Group>
-                ))}
-              </Form>
+              <div className="row mb-3">
+                                <label className="col-sm-3 col-form-label">Niveau</label>
+                                <div className="col-sm-9">
+                                  <select as="select" className="form-control" name="niveau" value={niveau} onChange={(e) => setNiveau(e.target.value)}>
+                                    <option value="">Sélectionnez votre niveau</option>
+                                    {niveaux && niveaux.map((niv) => (
+                                      <option key={niv.id} value={niv.id}>
+                                        {niv.nom}
+                                      </option>
+                                    ))}
+                                  </select> 
+                                  <select as="select" className="form-control" name="filiere" value={filiereId} onChange={(e) => setFiliereId(e.target.value)}>
+                                    <option value="">Sélectionnez une Filière</option>
+                                    {filieres && filieres.map((filiere) => (
+                                      <option key={filiere.id} value={filiere.id}>
+                                        {filiere.nom}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+              </div>
+                
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleCloseModal}>
                 Annuler
               </Button>
               <Button variant="primary" onClick={inscription}>
-                Valider
+                Enregistrer
               </Button>
             </Modal.Footer>
           </Modal>
-        </div>
-      )}
+      
+      
+    
+          {
+            modulaire &&(
+              <GetAllModules onModulesSelect = {setSelectedModules} />
+            )
+          }
+       
+      
         </main>
     </div>
   );

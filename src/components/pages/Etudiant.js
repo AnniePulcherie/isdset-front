@@ -151,6 +151,7 @@ const  Etudiant =() =>{
       console.log('Données envoyées avec succès', response.data);
       console.log(response.data.nouvelEtudiant);
       setResultat(response.data.nouvelEtudiant);
+      dispatch(setInscription(response.data.nouvelEtudiant));
       navigate('/accueil');
     } catch (error) {
       console.error('Erreur lors de l\'envoi des données', error);

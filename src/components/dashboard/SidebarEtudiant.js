@@ -11,13 +11,15 @@ import { clearUser } from '../../app/userSlice';
 import { clearInscription } from '../../app/inscriptionSlice';
 import '../../assets/css/sidebar.css';
 import { setNombreTelechargement } from '../../app/telechargement';
+import { setListeFilieres } from '../../app/listeFiliereSlice';
 
 const SidebarEtudiant = () => {
     const isSidebarOpen = useSelector(selectIsSidebarOpen);
     const apiURL = process.env.REACT_APP_API_USER_URL;
-    const [formationInscrit, setFormationInscrit] = useState(null);
+    const formationInscrit = useSelector((state)=>state.formations);
     const user = useSelector((state) => state.user);
-    const etudiant = useSelector((state) => state.inscription);
+    const etudiant = useSelector((state) => state.etudiant);
+   
     // const modules = useSelector((state)=>state.modules);
     const [nbModules, setNbModule] = useState(0);
     const [nbMois, setNbMois] = useState(0);
@@ -28,19 +30,32 @@ const SidebarEtudiant = () => {
     const [etatModule, setEtatModule] = useState(false);
     const [modules, setModules ] = useState([]);
     const semestres = [...new Set(modules.map((module) => module.semestre))];
+    const dispatch = useDispatch();
+  
     
 
     const getFiliere = async () => {
-    
+      let table = [];
       try {
-        
         const response = await axios.get(`${apiURL}etudiant/filiere/${etudiant.id}`);
-        console.log(response.data.module);
-        console.log('reponse', response.data.filiere);
-        setNbModule(response.data.filiere[0].nbModule);
-        dispatch(setModuleSemestre(response.data.module));
-        setModules(response.data.module);
-        
+        console.log('reponse', response.data.listeModule);
+        dispatch(setListeFilieres(response.data.listeFilieres));
+        // setNbModule(response.data.filiere[0].nbModule);
+       
+        // setModules(response.data.listeModule);
+        for(let m of response.data.listeModule){
+            console.log(m);
+            for(let i of m){
+              const tableau = table.push(i);
+            console.log("tableau",tableau);
+            }
+           
+
+        }
+        console.log("table " ,table);
+        setModules(table);
+        dispatch(setModuleSemestre(table));
+        setNbModule(table.length);
   
       } catch (error) {
         console.error('Erreur lors de la récupération de la filière :', error);
@@ -49,72 +64,28 @@ const SidebarEtudiant = () => {
 
 
     console.log("semestre: ", semestres);
-    const dispatch = useDispatch();
+
    
-    // const getInscriptioFormation = async ()=>{
-      
-    //   try{
-    //     const reponse = await axios.get(`${apiURL}inscription/formation/${etudiant.id}`);
-    //     console.log(reponse.data);
-        
-    //     setFormationInscrit(reponse.data);
-    //   }catch(error){
-    //     console.log(error);
-    //   }
-     
-    // }
     
     const getPaiement = async ()=>{
-      //condition();
       try{
-        const reponse = await axios.get(`${apiURL}paiement/etudiant/${etudiant.id}`);
+      for ( const formation of formationInscrit){
+        const reponse = await axios.get(`${apiURL}paiement/nombreMois/${etudiant.id}/${formation.id}`);
         console.log(reponse.data);
-        setNbMois(reponse.data[0].nombreMois);
-        // console.log(reponse.data.nombreTelechargeable);
-        // setModul(reponse.data.nombreTelechargeable);
-      }catch(error){
+       setNbMois(reponse.data.totalMois);
+     
+      }}catch(error){
         console.log(error);
       }
      
     }
 
-    // const getFormation = async ()=>{
-    //   //condition();
-    //   try{
-        
-    //     const reponse = await axios.get(`${apiURL}formation/${inscription[0].FormationId}`);
-    //     console.log(reponse.data.moisTotal);
-    //     setTotalMois(reponse.data.moisTotal);
-    //   }catch(error){
-    //     console.log(error);
-    //   }
-     
-    // }
-
-    // const getModule = async () => {
-    //     //condition();
-    //     console.log(inscription);
-    //     if(inscription && inscription.FormationId !== 3){
-    //       setEtatModule(true);
-          
-    //     }
-    //     try {
-    //       const response = await axios.get(`${apiURL}module/filiere/${inscription[0].FiliereId}`); // Remplacez par l'URL de votre API
-    //       setModules(response.data.modules);
-    //       console.log(response.data.modules);
-    //       setNbModule(response.data.nombreTotalModules);
-    //       console.log(response.data.nombreTotalModules);  
-          
-              
-    //     } catch (error) {
-    //       console.error('Erreur lors de la récupération des modules :', error);
-    //     }
-    //   };
-      
+   
       const handleLogout = () => {
         dispatch(clearUser());
         dispatch(clearInscription());
         dispatch(clearModules());
+        
         navigate('/login'); // Utilisez la fonction navigate pour la redirection
       };
     useEffect(()=>{
@@ -126,14 +97,10 @@ const SidebarEtudiant = () => {
             
               navigate('/accueil');
           }
-          // else if(inscription.etatInscription === false){
-          //   alert("veullez payer votre inscription d'abbord");
-          // }
+   
           getFiliere();
-          // getInscriptioFormation();
-         
           getPaiement();
-         
+          
           console.log(moduleTelechargeable);
           console.log(etatModule);
           console.log(nbMois, totalMois, nbModules);
@@ -144,12 +111,12 @@ const SidebarEtudiant = () => {
           console.log(nombreModulesTelechargeables);
           setModul(Math.max(nombreModulesTelechargeables));
          
-          // Assurez-vous que nombreModulesTelechargeables est toujours positif
-          // setModuleTelechargeable(modul);
+          // s'assure que le nombreModulesTelechargeables est toujours positif
+          
           dispatch(setNombreTelechargement(Math.max(nombreModulesTelechargeables)));
 
-     
-    },[user,nbMois,nbModules, etudiant]);
+        
+    },[user,nbMois, etudiant]);
 
     return (
         <div>
@@ -188,6 +155,7 @@ const SidebarEtudiant = () => {
                 <div>
                  <h4> Mes cours </h4>
                     <ul>
+                    
                     {semestres && semestres.map((semestre) => (
                        <NavLink to={`/${user.role}/${user.id}/semestre/${semestre}`} className="nav-item nav-link collapsed"> <li key={semestre}>Semestre {semestre}</li></NavLink>
                     ))}

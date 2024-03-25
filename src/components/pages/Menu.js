@@ -11,7 +11,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import '../../App.css';
 import { clearUser } from '../../app/userSlice';
+import { Container, Nav, Navbar } from 'react-bootstrap';
 import myLogo from '../../assets/img/myLogo.png';
+
 
 const Menu = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -19,33 +21,44 @@ const Menu = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [verification, setVerification] = useState(false);
-  // Fonction pour vérifier l'inscription
-  
-  
-  // Fonction pour vérifier l'inscription
-  // const checkInscription = () => {
-  //   if (inscription.length === 0) {
-  //     return false;
-  //   } else if (inscription.length > 1) {
-  //     return inscription.some((item) => item.etatInscription === false);
-  //   } else {
-  //     return inscription.length === 1 && inscription[0].etatInscription === false;
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (inscription.length === 0) {
-  //     setVerification(false); // L'inscription est vide, pas besoin de vérifier
-  //   } else {
-  //     const isAnyInscriptionUnpaid = checkInscription();
-  //     setVerification(isAnyInscriptionUnpaid);
-  //   }
-  // }, [inscription]);
   
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
+  const listeMenu =[
+    {
+      id:1,
+      lien :'/accueil',
+      nom :'Accueil'
+    },
+    {
+      id:2,
+      lien :'/formation',
+      nom :'Formation'
+    },
+    {
+      id:3,
+      lien :'/inscription',
+      nom :'inscription'
+    },
+    {
+      id:4,
+      lien :'/filiere',
+      nom :'filiere'
+    },
+    {
+      id:5,
+      lien :'/contact',
+      nom :'contact'
+    },
+    {
+      id:6,
+      lien :'/apropos',
+      nom :'A propos'
+    },
+    
+  ]
   // Fonction de déconnexion
   const handleLogout = () => {
     dispatch(clearUser());
@@ -59,75 +72,50 @@ const Menu = () => {
   };
 
   return (
-    <div className="menu header fixed-top d-flex align-items-center">
-      <div className="logos">
-        <img src={myLogo} alt="logo" className="logoISDset" />
-      </div>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <div className="liens container-fluid">
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-            onClick={toggleMenu}
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className={`collapse navbar-collapse ${menuOpen ? 'show' : ''}`}>
-            <ul>
-              <li className="menu-txt nav-item">
-                <NavLink to={'/accueil'}>Accueil</NavLink>
-              </li>
-              <li className="menu-txt">
-                <NavLink to="/formation">Formation</NavLink>
-              </li>
-              <li className="menu-txt">
-                <NavLink to="/filiere">Filiere</NavLink>
-              </li>
-              <li className="menu-txt">
-                <NavLink to="/inscription">Inscription</NavLink>
-              </li>
-              <li className="menu-txt">
-                <NavLink to="/contact">Contact</NavLink>
-              </li>
-              <li className="menu-txt">
-                <NavLink to="/apropos">A propos</NavLink>
-              </li>
-            </ul>
-            {verification && ( 
-              <button className="btn btn-primary" onClick={handlePayment}>
-                Payer l'inscription
-              </button>
-             )} 
-            {user ? (
-              <div className="right">
-                <button className="menu-txt">
-                  <NavLink to={`/${user.role}/${user.id}`}>
-                    <FontAwesomeIcon icon={faUser} /> {user.nom}
+    
+      <Navbar className=" fixed-top navbar menu header" expand="lg">
+        <Container>
+          <Navbar.Brand className="brand">
+          
+            <img src={myLogo} alt="logo" className="logoISDset" /> 
+          
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className='ms-auto menu-menu'>
+              { listeMenu.map((liste)=>(
+                  <NavLink to={liste.lien} className="nav-link liste-items menu-txt" key={liste.id} smooth >
+                    {liste.nom}
                   </NavLink>
-                </button>
-                <button className="menu-log menu-logout" onClick={handleLogout}>
-                  <FontAwesomeIcon icon={faSignOut} />
-                </button>
-              </div>
-            ) : (
-              <div className="navbar-nav ">
-                <NavLink to="/login" className="login">
-                  <FontAwesomeIcon icon={faSignInAlt} /> Log in
-                </NavLink>
-                <NavLink to="/logup" className="login">
-                  <FontAwesomeIcon icon={faUserAlt} /> Log up
-                </NavLink>
-              </div>
-            )}
-          </div>
-        </div>
-      </nav>
-    </div>
+              ))}
+              {user ? (
+                <div className="right">
+                  <button className="menu-txt btn btn-sm">
+                    <NavLink to={`/${user.role}/${user.id}`}>
+                      <FontAwesomeIcon icon={faUser} /> {user.nom}
+                    </NavLink>
+                  </button>
+                  <button className="menu-log btn btn-sm menu-logout" onClick={handleLogout}>
+                    <FontAwesomeIcon icon={faSignOut} />
+                  </button>
+                </div>
+              ) : (
+                <div className="navbar-nav ">
+                  <NavLink to="/login" className="login">
+                    <FontAwesomeIcon icon={faSignInAlt} /> Log in
+                  </NavLink>
+                  <NavLink to="/logup" className="login">
+                    <FontAwesomeIcon icon={faUserAlt} /> Log up
+                  </NavLink>
+                </div>
+              )}
+              </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+      
+      
+    
   );
 };
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, FormLabel } from 'react-bootstrap';
 
 import Menu from './Menu';
 import { useNavigate } from 'react-router-dom';
@@ -10,23 +10,22 @@ import Footer from './footer';
 
 const Paiement = () => {
   const user = useSelector((state) => state.user);
-  const etudiant = useSelector((state) => state.inscription);
+  const inscription = useSelector((state) => state.inscription);
+  const etudiant = useSelector((state)=>state.etudiant);
   const navigate = useNavigate();
   const apiURL = process.env.REACT_APP_API_USER_URL;
   const [motif, setMotif] = useState([]);
   const [mobile, setMobile] = useState(false);
   const [bancaire, setBancaire] = useState(false);
   const [operateur, setOperateur] = useState('');
-  const [nombreMois, setNombreMois] = useState(1);
+  const [nombreMois, setNombreMois] = useState(0);
   const [reference, setReference] = useState('');
   const [dateVersement, setDateVersement] = useState('');
   const [montant, setMontant] = useState(0);
   const [mois, setMois] = useState(false);
-  const [reponse, setReponse] = useState(null);
   const [bordereau, setBorderau] = useState('');
   const [agence, setAgence] = useState('');
   const [etatEcolage, setEtatEcolage] = useState(false);
-  const [reponseMobile, setReponseMobile] = useState(null);
   const [intensive, setIntensive] = useState(false);
   const [ecolageIntensive, setEcolageIntensive] = useState(300000);
   const [module, setModule] = useState(false);
@@ -34,35 +33,23 @@ const Paiement = () => {
   const [nbModule, setNbModule] = useState(0);
   const [nbMoisPayer, setNbMoisPayer] = useState(0);
   const [moduleTelechargeable, setModuleTelechargeable] = useState(0);
-  
-  const [listeFormation,setListeFormation] = useState([]);
-  const [paiement, setPaiement] = useState(null);
-  const [formation, setFormation] = useState([]);
-
-  const getInscriptionFormation = async () => {
-  try {
-    console.log(etudiant);
-    const reponse = await axios.get(`${apiURL}inscription/formation/${etudiant.id}`);
-    console.log(reponse.data);
-    setListeFormation(reponse.data);
-  } catch (error) {
-    console.log(error);
-  }
-}
-
+  const listeFormation = useSelector((state)=>state.formations);
+  const [paiementExist, setPaiementExist] = useState(null);
+  const [formation, setFormation] = useState(listeFormation[0]);
+  const [moisApayer,setMoisApayer] = useState(0);
   const getPaiement = async()=>{
     
     try{
-      
-      const paiement = await axios.get(`${apiURL}paiement/etudiant/${etudiant.id}`);
-      if(paiement){
-        setPaiement(paiement.data);
-        console.log(paiement.data[0]);
+      console.log("inscription",inscription);
+      const paiementReponse = await axios.get(`${apiURL}paiement/etudiant/${etudiant.id}`);
+      if(paiementReponse){
+        setPaiementExist(paiementReponse.data);
+        console.log(paiementReponse.data[0]);
         
         console.log(formation);
         // setTotalMois(formation.moisTotal);
-        setNbMoisPayer(paiement.data[0].nombreMois);
-        console.log(paiement.data[0].nombreMois, formation.moisTotal, nbModule);
+        setNbMoisPayer(paiementReponse.data[0].nombreMois);
+        console.log(paiementReponse.data[0].nombreMois, formation.moisTotal, nbModule);
       }
       
     }catch(err){
@@ -82,6 +69,7 @@ const Paiement = () => {
       montantTotal: montant,
       etatEcolage,
       etatInscription: true,
+      etatPaiement: "En attente",
       moduleTelechargeable,
       EtudiantId: etudiant.id,
       FormationId: formation.id,
@@ -93,14 +81,14 @@ const Paiement = () => {
        // Si les deux motifs sont inclus, définir etatInscription à true
         paiementData.etatInscription = true;
        const newPaiement = await axios.post(`${apiURL}paiement`, paiementData);
-        console.log(newPaiement);
-       console.log(newPaiement);
+
+       console.log(newPaiement.data);
             if(mobile){
               const reponse = await axios.post(`${apiURL}paiementMobile`, {
                 operateur,
                 reference,
                 montant,
-                PaiementId : newPaiement.id
+                PaiementId : newPaiement.data.id
               });
             
               console.log(reponse);
@@ -110,7 +98,7 @@ const Paiement = () => {
                 bordereau,
                 agence,
                 montant,
-                PaiementId:newPaiement.id
+                PaiementId:newPaiement.data.id
               })
              
               console.log(reponse.data);
@@ -129,53 +117,8 @@ const Paiement = () => {
     const mois = parseFloat((parseInt(nbMoisPayer) * 100)/ parseInt(formation.totalMois));
     console.log("mois : ", mois);
     setModuleTelechargeable(parseFloat(mois * parseInt(nbModule))/ 100);
-
-      if(!paiement){
-        const motifsNecessaires = ['DroitInscription', 'FraisGeneraux'];
-        const motifsPresent = motifsNecessaires.every(m => motif.includes(m));
-        if (!motifsPresent) {
-          alert("Tu dois payer le droit d'inscription et le frais genereaux.");
-          if(intensive && ecolageIntensive < 300000){
-            alert("le montant minimum du premier versemment d'ecolage est 300000Ar");
-            
-          }
-        }
-      }
+    methodePaiement();
       
-        console.log("methodePaiement");
-        methodePaiement();
-      //   try{
-      //     if(mobile){
-      //       if(!operateur || !reference){
-      //         alert("Toutes les champs sont obligatoire");
-              
-      //       }else{
-      //       const reponse = await axios.post(`${apiURL}paiementMobile`, {
-      //         operateur,
-      //         reference
-      //       })
-            
-      //       setReponseMobile(reponse.data);
-            
-      //     }
-      //     }else if(bancaire){
-      //       if(!bordereau || !agence){
-      //         alert("Toutes les champs sont obligatoire");
-              
-      //       }else{
-      //       const reponse = await axios.post(`${apiURL}paiementBancaire`, {
-      //         bordereau,
-      //         agence
-      //       })
-      //       setReponse(reponse.data);
-      //       console.log(reponse.data);
-      //       methodePaiement();
-      //     }
-      //     }
-        
-      // }catch (erreur){
-      //   console.log('erreur :', erreur);
-     
 }
   const paiementMobile = () => {
     setBancaire(false);
@@ -204,8 +147,7 @@ const Paiement = () => {
         }else{
           setMois(true);
         }
-        
-        //forma = parseFloat(forma) * parseFloat(nombreMois);
+
       }
       if( name ==="FraisGeneraux"){
         console.log(forma);
@@ -232,13 +174,33 @@ const Paiement = () => {
 
   const appelFormation =(formation)=>{
     setFormation(formation); 
-    if(formation.typeFormation === "Intensive"){
+    if(formation.typeFormation === "Modulaire"){
+        setNombreMois(moisApayer);
+        setIntensive(false);
+    }
+    else if(formation.typeFormation === "Intensive"){
       setIntensive(true)
     }else{
       setIntensive(false);
     }
   }
 
+  const formationModulaire = async()=>{
+    try{
+    const formation = await axios.get(`${apiURL}inscriptionModulaire/inscription/${etudiant.id}`);
+    console.log(formation.data);
+    setMoisApayer(formation.data.nbNonPaye);
+    if (formation.data.formation) {
+      const formationExistante = listeFormation.find(form => form.id === formation.data.formation.id);
+      if (!formationExistante) {
+        listeFormation.push(formation.data.formation);
+      }
+    }
+    
+    }catch(error){
+      console.log(error);
+    }
+  }
  const handleEcolaIntensive =(e)=>{
     if(e.target.value <300000){
       alert("Le montant minimum est de 300000 Ar");
@@ -247,12 +209,12 @@ const Paiement = () => {
  }
   useEffect(() => {
     // Calculez le montant total lorsque nombreMois change
-    if(!user && !etudiant){
+    if(!user && !inscription){
       navigate('/login');
     }
-   
+    formationModulaire();
+
     getPaiement();
-    getInscriptionFormation();
     
     const ecolage = parseFloat(formation.ecolage);
     console.log(listeFormation);
@@ -308,26 +270,26 @@ const Paiement = () => {
             ))}
       </div>
         
-        <div className='row'>
-          <div className='col-md-6'>
+        <div className='paiementMode'>
+        
             
             <section className ='droitePaiement'>
               <h2>Mode de paiement</h2>
-              <div className='row'>
+              <div>
                 <button className='btn btn-primary' onClick={paiementMobile}>
                   Paiement via Mobile Money
                 </button>
-                <button className='btn ' onClick={paiementBancaire}>
+                <button className='boutonPaiement' onClick={paiementBancaire}>
                   Paiement par versement bancaire
                 </button>
               </div>
             </section>
-          </div>
-          <div className='col-md-6'>
-            <section>
+         
+            <section className='gauchePaiment'>
               <article>
-                <h2>Motifs</h2>
+                <h4>Formation {formation.typeFormation}</h4>
                 <Form>
+                <FormLabel>Motifs</FormLabel>
                   <Form.Group>
                     <Form.Check
                       type="checkbox"
@@ -395,7 +357,7 @@ const Paiement = () => {
                 {mobile && (
                   <Form>
                     <div className='row'>
-                    <h3>Operateur</h3>
+                    <FormLabel>Opérateur</FormLabel>
                       <Form.Group controlId="operateur">
                         <Form.Check
                           type="radio"
@@ -439,9 +401,11 @@ const Paiement = () => {
                       <Form.Label>Date</Form.Label>
                       <Form.Control type="date" name="date" value={dateVersement} onChange={(e) => setDateVersement(e.target.value)} requierd/>
                     </Form.Group>
-                    <Button variant="success" onClick={postPaiement}>Enregistrer le paiement</Button>
+
+                    <br/>
+                    <Button variant="primary" onClick={postPaiement}>Enregistrer le paiement</Button>
                     <h2>Montant total: {montant} Ar</h2>
-                    <p>Motif: {motif.join(', ')}</p>
+                    <h2>motifs : {motif}</h2>
                   </Form>
                 )}
                 {bancaire && (
@@ -461,14 +425,15 @@ const Paiement = () => {
                       <Form.Label>Date</Form.Label>
                       <Form.Control type="date" name="date" value={dateVersement} onChange={(e) => setDateVersement(e.target.value)} requierd/>
                     </Form.Group>
-                    <Button variant="success" onClick={postPaiement}>Ajouter le Paiement</Button>
+                    <br/>
+                    <Button variant="primary" onClick={postPaiement}>Ajouter le Paiement</Button>
                     <h2>Montant total: {montant} Ar</h2>
-                    <p>Motif: {motif.join(', ')}</p>
+                    <h2>motifs : {motif}</h2>
                   </Form>
                 )}
               </div>
             </section>
-          </div>
+          
         </div>
       </main>
       <Footer />

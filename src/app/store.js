@@ -2,7 +2,10 @@
 
 import { configureStore } from '@reduxjs/toolkit';
 import etudiantSlice from './etudiantSlice';
+import formationsSlice from './formationsSlice.js';
 import inscriptionReducer from './inscriptionSlice';
+import listeFiliereSlice from './listeFiliereSlice';
+import modulaireSlice from './modulaireSlice';
 import modulesReducer from './modulesReducer';
 import sidebarReducer from './sidebarSlice';
 import telechargementSlice from './telechargement';
@@ -16,6 +19,9 @@ const store = configureStore({
     inscription : inscriptionReducer,
     modules: modulesReducer,
     nombreTelechargement: telechargementSlice,
+    modulaire:modulaireSlice,
+    formations: formationsSlice,
+    listeFilieres:listeFiliereSlice
   },
 });
 

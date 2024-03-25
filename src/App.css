@@ -1,28 +1,55 @@
-
-body{
-	font-family: 'Century Gothic', Calibri, serif;
-	font-size: 13px;	
-	padding: 0px; 
-
-  	box-sizing: border-box;
+.navbar{
+	background: #2E86C1;
+	color:#fff;
 	
+  }
+  .content{
+	display: flex;
+	flex-direction: row;
+  }
+  .brand, .liste-items{
+	color: #fff;
+  }
+  .liste-items :hover{
+	color: #52BE80 !important;
+  }
+  button-navbar-toggler, .collapsed{
+	background-color: white !important;
+  }
+  
+  .active{
 	
-  z-index: -1;
+	color: #2E86C1;
+  }
+  
+ 
+  
+  Container{
+	display: flex !important;
+	justify-content: space-between !important;
+  }
+  
+
+
+.sectionTitre .articleTitre h3{
+	font-family: Georgia, 'Times New Roman', Times, serif;
+	
 }
 
 
 .sectionTitre .articleTitre h1{
-	
-	font-size: 2.5em;
+	font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+	font-size: 2.5em !important;
 	margin-bottom: 0;
-	font-weight:1.5em;
-	color: #012970;
+	font-weight:1.5em !important;
+	color: #00040a;
 	overflow: hidden;
 }
-header{
+
+/* header{
 	height: 100px;
 	
-}
+} */
 .menu{
 	display: flex;
 	flex-direction: row;
@@ -42,11 +69,12 @@ header{
 }
 
 .myAccueil {
-	background: url('./assets/img/accueil1.png'), linear-gradient(to bottom, royalblue , royalblue 10%, white 25%);
+	background: url('./assets/img/accueil1.png'), rgba(112, 194, 245, 0.112);
 	
 	background-size: 49%, cover;
 	background-repeat: no-repeat;
 	background-position: left top;
+	
 	
   }
 /* CSS pour masquer le sidebar par défaut */
@@ -65,13 +93,43 @@ header{
   #mainy{
 	margin-left: 0;
   }
-footer{
+  .styleFooter{
+	display: flex;
+	flex-direction: column;
 	padding: 0;
 	margin: 0;
 	padding-top: 30px;
-	text-align: center;
-	background-color: #C5C5C5;
-	border-top: 2px solid #AAA;
+	background-color: rgba(4, 30, 107, 0.199);
+	color: rgb(4, 4, 4);
+	justify-content: space-around;
+	justify-content: start;
+	
+	
+	
+}
+.mycontainer{
+	display:flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	position: relative;
+	text-align: left;
+	align-items: flex-start;
+}
+.contact{
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+
+}
+.contact div{
+	display: flex;
+	flex-direction: row;
+	
+}
+.item p{
+	padding-left: 20px;
 }
 nav{
 	
@@ -86,6 +144,9 @@ nav{
 	padding-bottom: 70px;
 }
 nav ul{
+	position: relative;
+	display: flex;
+	flex-direction: row;
 	margin: 0px;
 	padding: 0px;
 }
@@ -242,6 +303,19 @@ background: white;
 	.liens{
 		flex-direction: column;
 	}
+	.liens ul, .right{
+		flex-direction:column;
+	}
+	
+	.menu{
+		
+		flex-direction: column;
+		height: 60vh;
+	}
+	.menu-menu{
+		display: flex;
+		flex-direction: column;
+	}
 }
 
 
@@ -258,6 +332,7 @@ background: white;
 	justify-content: space-between;
 	align-items: center;
 	text-align: center;
+	
 }
 
 .autre-logo{
@@ -274,7 +349,7 @@ background: white;
 	align-items: center;
 	text-align: center;
 }
-.articleTitre h1{
+/* .articleTitre h1{
 	display: block;
 	font-size: 2.1em !important;
 	margin-bottom: 0;
@@ -286,15 +361,24 @@ background: white;
     font-weight: 1000 !important;
 	overflow-y: hidden;
 
-}
+} */
 /* .articleTitre h3{
 	overflow-y: hidden;
 	font-weight: 600;
 } */
 .slogan{
-	font-size: 25px;
-
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	justify-content: center;
+	
+	font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+/* .slogan p:nth-child(2){
+	color:rgba(0, 0, 255, 0.932);
+	font-size: larger;
+	font-weight: 200;
+} */
 
 .section2{
 	align-items: center;
@@ -304,6 +388,10 @@ background: white;
 	flex-direction: row;
 	justify-content: space-around;
 	text-align: center;
+	position: relative;
+   
+	
+	
 }
 
 .format{
@@ -346,6 +434,7 @@ background: white;
 	justify-content: space-between;
 	align-items: center;
 	width: 70%;
+
 }
 
 .mybtn{
@@ -364,6 +453,11 @@ background: white;
 }
 .mySearch{
 	width: 40%;
+	
+	
+	/* background-color: rgba(65, 105, 225, 0.125);
+	border-top-left-radius: 50% 100px; Courbure supérieure gauche */
+    /* border-top-right-radius: 50% 100px; */
 }
 
 .inputRecherche{
@@ -386,6 +480,7 @@ background: white;
 	
 }
 
+
 .lesInput{
 	width: 60%;
 }
@@ -396,6 +491,7 @@ background: white;
 	position: relative;
     display: flex;
     justify-content: center;
+	
 }
 .formulaire .mybtn{
 	position: relative;
@@ -458,13 +554,33 @@ header {
 		font-size: 15px;
 
 	}
-	
+	.show{
+		position: relative;
+		height: 100%;
+		z-index: 1;
+	}
+	nav{
+		height: 60vh;
+		z-index: 1;
+	}
+	nav ul{
+		flex-direction: column;
+		
+	}
+
 	.rechercher .mybtn{
 		
 		margin-top: 20px;
 	}
  }
  @media (max-width: 600px) {
+	.menu{
+		height: 100%;
+		flex-direction: column;
+	}
+	.menu-menu{
+		flex-direction:column;
+	}
 	.section2, .rechercher{
 		width: 100%;
 		position: relative;
@@ -509,29 +625,29 @@ header {
 		margin-top: 20px;
 	}
 	.articleTitre h1 {
-	  font-size: 24px; /* Définissez la taille de la police souhaitée pour les petits écrans */
+	  font-size: 18px; /* Définissez la taille de la police souhaitée pour les petits écrans */
 	}
 	.articleTitre h3 {
-	  font-size: 16px; /* Définissez la taille de la police souhaitée pour les petits écrans */
+	  font-size: 12px; /* Définissez la taille de la police souhaitée pour les petits écrans */
 	}
 	.slogan {
-	  font-size: 14px; /* Définissez la taille de la police souhaitée pour les petits écrans */
+	  font-size: 10px; /* Définissez la taille de la police souhaitée pour les petits écrans */
 	}
   }
   
   /* CSS pour les écrans moyens et grands */
-  @media (min-width: 769px) {
+  /* @media (min-width: 769px) {
 	.articleTitre h1 {
-	  font-size: 36px; /* Définissez la taille de la police souhaitée pour les écrans moyens et grands */
+	  font-size: 36px; /* Définissez la taille de la police souhaitée pour les écrans moyens et grands 
 	}
 	.articleTitre h3 {
-	  font-size: 24px; /* Définissez la taille de la police souhaitée pour les écrans moyens et grands */
+	  font-size: 24px; /* Définissez la taille de la police souhaitée pour les écrans moyens et grands 
 	}
 	.slogan {
-	  font-size: 18px; /* Définissez la taille de la police souhaitée pour les écrans moyens et grands */
+	  font-size: 18px; /* Définissez la taille de la police souhaitée pour les écrans moyens et grands 
 	}
   }
-  
+   */
   .serch{
 	display :flex;
 	flex-direction: row;
@@ -582,20 +698,51 @@ header {
 	position: relative;
 	width: 100%;
 }
-
+.paiementMode{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
 .droitePaiement{
 	left: 8%;
-	width: 80%;
+	width: 40%;
 	position: relative;
 	justify-content: center;
 	text-align: center;
 	align-items: center;
+	padding-right: 50px;
+	
+}
+.droitePaiement div{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
 }
 .droitePaiement div button{
-	margin: 20px;
+	margin: 10px;
+	border-radius:10px  ;	
+}
+
+.boutonPaiement{
+	border: 5px solid #0d6efd;
+	border-radius:10px  ;
+	border-top-right-radius: 10px;
+	background-color: white;
+}
+
+.boutonPaiement:hover{
+	background: #0d6efd;
+	color: white;
 	
-	border-radius: 5px;
-	background: royalblue;
+}
+.gauchePaiment{
+	width: 40%;
+	background-color: #20039319;
+	padding: 0 15px 0 15px;
+	border-radius: 10px;
+	box-shadow: 10px 10px 5px gray;
+	margin-bottom: 10px;
 	
 }
 
@@ -609,9 +756,7 @@ header {
 	border-left: 2px solid #000; /* Couleur de la ligne verticale 
   } */
 
-  .modePaiement li img{
-	width: 25%;
-  }
+
 
   .password-input-wrapper {
 	position: relative;
@@ -678,11 +823,7 @@ header {
 	justify-content: center;
   }
 
-  .styleFooter{
-	border:none;
-	background: rgba(235, 230, 230, 0.909);
-	color: rgb(4, 4, 4);
-  }
+ 
 
   .boutonFiliere{
 	display: flex;
@@ -696,7 +837,7 @@ header {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	justify-content: center;
+	justify-content:flex-end;
 	
   }
 
@@ -705,4 +846,10 @@ header {
 	width: 200px;
 	text-transform: center;
 	align-items: center;
+  }
+
+  @media (max-width:991){
+	.sidebar{
+		background-color: rgba(0,0,0, 0.3);
+	}
   }
